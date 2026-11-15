@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>۳۲ بیتی و ۶۴ بیتی؛ درس کوتاه</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&display=swap">
+<style>
+:root{
+  --bg:#edf1f6; --surface:#ffffff; --ink:#15213b; --muted:#56627a; --line:#d5dce8;
+  --a:#0f766e; --a-soft:#d9f0ec; --b:#5a3fd0; --b-soft:#e6e0fa; --warn:#b45309; --warn-soft:#fdf0dc;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1424; --surface:#161e33; --ink:#e8edf8; --muted:#9aa6c0; --line:#2a3552;
+    --a:#4fd1c0; --a-soft:#12332f; --b:#a99bff; --b-soft:#251f4d; --warn:#f3b45a; --warn-soft:#3a2a12;
+  }
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Vazirmatn",Tahoma,sans-serif;line-height:2;font-size:17px}
+.wrap{max-width:900px;margin:0 auto;padding:0 20px}
+header{padding:56px 0 32px}
+h1{font-size:clamp(34px,6vw,56px);line-height:1.4;margin:0 0 12px;font-weight:800}
+h1 .a{color:var(--a)} h1 .b{color:var(--b)}
+.lead{color:var(--muted);max-width:60ch;margin:0}
+h2{font-size:26px;margin:0 0 10px;font-weight:800}
+section{margin:36px 0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:24px}
+p{margin:0 0 12px}
+.bits{display:grid;gap:22px}
+.row-title{display:flex;justify-content:space-between;align-items:baseline;flex-wrap:wrap;gap:6px;margin-bottom:8px}
+.row-title strong{font-size:19px}
+.grid{display:grid;gap:4px;direction:ltr}
+.grid.g32{grid-template-columns:repeat(16,1fr)}
+.grid.g64{grid-template-columns:repeat(16,1fr)}
+.cell{aspect-ratio:1;border-radius:4px;font-size:11px;display:grid;place-items:center;font-family:ui-monospace,Consolas,monospace}
+.g32 .cell{background:var(--a-soft);color:var(--a)}
+.g64 .cell{background:var(--b-soft);color:var(--b)}
+.g64 .cell:nth-child(n+33){outline:1.5px solid var(--b)}
+.caption{font-size:14px;color:var(--muted);margin-top:8px}
+.cmp{width:100%;border-collapse:separate;border-spacing:0;overflow:hidden;border:1px solid var(--line);border-radius:14px;background:var(--surface)}
+.cmp th,.cmp td{padding:12px 14px;text-align:right;border-bottom:1px solid var(--line);vertical-align:top;font-size:16px}
+.cmp tr:last-child td{border-bottom:0}
+.cmp thead th{font-weight:800}
+.cmp thead th:nth-child(2){background:var(--a-soft);color:var(--a)}
+.cmp thead th:nth-child(3){background:var(--b-soft);color:var(--b)}
+.cmp td:first-child{font-weight:600;white-space:nowrap}
+.scroll{overflow-x:auto}
+.num{direction:ltr;unicode-bidi:isolate;font-family:ui-monospace,Consolas,monospace;font-size:14px}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+@media(max-width:640px){.split{grid-template-columns:1fr}.grid.g32,.grid.g64{grid-template-columns:repeat(8,1fr)}}
+.note{background:var(--warn-soft);border-inline-start:5px solid var(--warn);border-radius:12px;padding:16px 20px}
+.note b{color:var(--warn)}
+code{direction:ltr;unicode-bidi:isolate;display:inline-block;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:0 8px;font-family:ui-monospace,Consolas,monospace;font-size:15px;line-height:1.8}
+ul{padding-inline-start:22px;margin:0}
+li{margin-bottom:6px}
+.pill{display:inline-block;border-radius:999px;padding:0 12px;font-size:14px;font-weight:600}
+.pill.a{background:var(--a-soft);color:var(--a)} .pill.b{background:var(--b-soft);color:var(--b)}
+footer{padding:20px 0 60px;color:var(--muted);font-size:14px}
+:focus-visible{outline:3px solid var(--b);outline-offset:2px}
+
+/* ---- visual upgrade ---- */
+body{background:radial-gradient(1200px 600px at 85% -10%,var(--b-soft),transparent 60%),radial-gradient(900px 500px at 5% 0%,var(--a-soft),transparent 55%),var(--bg);background-attachment:fixed}
+header{position:relative;overflow:hidden;margin-top:20px;padding:64px 32px 48px;border-radius:28px;background:var(--surface);border:1px solid var(--line);isolation:isolate}
+.hero-bits{position:absolute;inset:0;z-index:-1;display:grid;grid-template-columns:repeat(24,1fr);direction:ltr;font-family:ui-monospace,Consolas,monospace;font-size:15px;line-height:1.9;text-align:center;opacity:.16;-webkit-mask-image:linear-gradient(to bottom,#000,transparent 95%);mask-image:linear-gradient(to bottom,#000,transparent 95%);pointer-events:none}
+.hero-bits span{color:var(--ink);transition:color .4s}
+.hero-bits span.on{color:var(--b);animation:flip 1.2s ease}
+@keyframes flip{0%{transform:scale(1.8);opacity:0}100%{transform:scale(1);opacity:1}}
+h1 .a,h1 .b{display:inline-block;animation:rise .9s cubic-bezier(.2,.8,.2,1) both}
+h1 .b{animation-delay:.25s}
+@keyframes rise{from{opacity:0;transform:translateY(28px) scale(.9)}to{opacity:1;transform:none}}
+h1 .a{background:linear-gradient(90deg,var(--a),#22c3b3);-webkit-background-clip:text;background-clip:text;color:transparent}
+h1 .b{background:linear-gradient(90deg,var(--b),#8d6bff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{animation:fade 1s .6s both}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s ease,transform .7s cubic-bezier(.2,.8,.2,1)}
+.reveal.in{opacity:1;transform:none}
+.card{box-shadow:0 1px 0 var(--line),0 14px 30px -18px rgba(21,33,59,.25);transition:transform .3s,box-shadow .3s}
+.card:hover{transform:translateY(-3px);box-shadow:0 1px 0 var(--line),0 22px 38px -18px rgba(21,33,59,.35)}
+h2{position:relative;padding-inline-start:18px}
+h2::before{content:"";position:absolute;inset-inline-start:0;top:.55em;width:6px;height:.9em;border-radius:3px;background:linear-gradient(var(--a),var(--b))}
+.cell{opacity:0;transform:scale(.3);cursor:pointer;transition:background .25s,color .25s}
+.in .cell{animation:pop .45s cubic-bezier(.3,1.6,.5,1) forwards;animation-delay:calc(var(--i)*14ms)}
+@keyframes pop{to{opacity:1;transform:scale(1)}}
+.cell.flipped{background:var(--ink)!important;color:var(--surface)!important}
+.cell.wave{animation:wave .7s ease}
+@keyframes wave{50%{transform:translateY(-6px) scale(1.15)}}
+.membar{margin:6px 0 22px;display:grid;gap:12px}
+.mb{display:grid;grid-template-columns:90px 1fr;gap:12px;align-items:center;direction:rtl}
+.mb .track{height:30px;border-radius:15px;background:var(--surface);border:1px solid var(--line);overflow:hidden;direction:ltr}
+.mb .fill{height:100%;width:0;border-radius:15px;display:flex;align-items:center;justify-content:flex-end;padding:0 12px;color:#fff;font-size:13px;font-weight:600;white-space:nowrap;transition:width 1.6s cubic-bezier(.2,.8,.2,1) .2s}
+.mb .fill.f32{background:linear-gradient(90deg,#0f766e,#22c3b3)}
+.mb .fill.f64{background:linear-gradient(90deg,#5a3fd0,#8d6bff);background-size:200% 100%;animation:shine 3s linear infinite}
+@keyframes shine{to{background-position:-200% 0}}
+.in .mb .fill.f32{width:4%;min-width:64px}
+.in .mb .fill.f64{width:100%}
+.cmp tbody tr{transition:background .2s}
+.cmp tbody tr:hover{background:var(--bg)}
+.note{position:relative;overflow:hidden}
+.note::after{content:"";position:absolute;inset:0;background:linear-gradient(110deg,transparent 40%,rgba(255,255,255,.25) 50%,transparent 60%);transform:translateX(-120%);animation:sweep 5s 1.5s infinite}
+@keyframes sweep{to{transform:translateX(120%)}}
+.hint{font-size:14px;color:var(--muted);margin-top:8px}
+@media(max-width:640px){header{padding:44px 20px 32px}}
+@media (prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .reveal,.cell{opacity:1;transform:none}
+  .mb .fill.f32{width:4%;min-width:64px}.mb .fill.f64{width:100%}
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="hero-bits" id="hb" aria-hidden="true"></div>
+  <h1><span class="a">۳۲ بیتی</span> یا <span class="b">۶۴ بیتی</span>؟</h1>
+  <p class="lead">سلام! امروز یاد می‌گیریم وقتی می‌گویند «این برنامه ۳۲ بیتی است» یا «ویندوزم ۶۴ بیتی است»، دقیقاً چه چیزی تغییر می‌کند و چرا برای ما مهم است.</p>
+</header>
+
+<section>
+  <h2>اول: «بیت» یعنی چه؟</h2>
+  <div class="card">
+    <p>کامپیوتر همه‌چیز را با صفر و یک نشان می‌دهد. هر صفر یا یک را یک <b>بیت</b> می‌نامیم. پردازنده هم یک «اندازهٔ طبیعی» دارد: تعداد بیت‌هایی که می‌تواند در یک حرکت بخواند و پردازش کند. به این اندازه می‌گوییم <b>عرض کلمه</b> پردازنده؛ یا ۳۲ بیت است یا ۶۴ بیت.</p>
+    <p>مثل جادهٔ دو بانده در برابر جادهٔ شانزده بانده: هر دو مسیر می‌رسند، ولی عرض جاده تعیین می‌کند چه مقدار داده هم‌زمان رد شود و چه‌قدر آدرس بتوانیم نشانی‌گذاری کنیم.</p>
+  </div>
+</section>
+
+<section>
+  <h2>ببینیم: هر کدام چند خانه دارند؟</h2>
+  <div class="card bits">
+    <div>
+      <div class="row-title"><strong style="color:var(--a)">۳۲ بیتی: ۳۲ خانه</strong><span class="caption" style="margin:0">۴ بایت</span></div>
+      <div class="grid g32" id="g32" aria-label="۳۲ خانه"></div>
+    </div>
+    <div>
+      <div class="row-title"><strong style="color:var(--b)">۶۴ بیتی: ۶۴ خانه</strong><span class="caption" style="margin:0">۸ بایت؛ یعنی دو برابر</span></div>
+      <div class="grid g64" id="g64" aria-label="۶۴ خانه"></div>
+      <p class="caption">خانه‌های دورخط‌دار همان ۳۲ بیتِ اضافه‌اند.</p>
+      <p class="hint">روی خانه‌ها کلیک کنید تا صفر و یک شوند.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>مهم‌ترین تفاوت: حافظهٔ قابل استفاده</h2>
+  <div class="membar" aria-hidden="true">
+    <div class="mb"><strong style="color:var(--a)">۳۲ بیتی</strong><div class="track"><div class="fill f32">4 GB</div></div></div>
+    <div class="mb"><strong style="color:var(--b)">۶۴ بیتی</strong><div class="track"><div class="fill f64">16 EB (در مقیاس نیست!)</div></div></div>
+  </div>
+  <div class="split">
+    <div class="card">
+      <span class="pill a">۳۲ بیتی</span>
+      <p style="margin-top:10px">آدرس حافظه ۳۲ بیت است، پس حداکثر <span class="num">2³² = 4,294,967,296</span> آدرس داریم؛ یعنی <b>۴ گیگابایت</b>. در عمل، ویندوزِ ۳۲ بیتی معمولاً حدود ۳ تا ۳٫۵ گیگابایت از رم را نشان می‌دهد و بقیه به سخت‌افزار اختصاص می‌یابد.</p>
+    </div>
+    <div class="card">
+      <span class="pill b">۶۴ بیتی</span>
+      <p style="margin-top:10px">در نظریه <span class="num">2⁶⁴</span> آدرس داریم؛ حدود <b>۱۶ اگزابایت</b>. این عدد آن‌قدر بزرگ است که سقف واقعی را سیستم‌عامل و مادربورد تعیین می‌کنند، نه خود ۶۴ بیت؛ و بسیار بالاتر از رم هر کامپیوتر خانگی است.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>جدول مقایسه</h2>
+  <div class="scroll">
+  <table class="cmp">
+    <thead><tr><th>ویژگی</th><th>۳۲ بیتی</th><th>۶۴ بیتی</th></tr></thead>
+    <tbody>
+      <tr><td>حداکثر رم (نظری)</td><td>۴ گیگابایت</td><td>حدود ۱۶ اگزابایت</td></tr>
+      <tr><td>اندازهٔ اشاره‌گر (آدرس)</td><td>۴ بایت</td><td>۸ بایت</td></tr>
+      <tr><td>بزرگ‌ترین عدد صحیح بدون علامت</td><td class="num">4,294,967,295</td><td class="num">18,446,744,073,709,551,615</td></tr>
+      <tr><td>ثبات‌های همه‌منظوره (x86)</td><td>۸ عدد، ۳۲ بیتی</td><td>۱۶ عدد، ۶۴ بیتی</td></tr>
+      <tr><td>پوشهٔ برنامه‌ها در ویندوز</td><td><code>Program Files (x86)</code></td><td><code>Program Files</code></td></tr>
+      <tr><td>قالب فایل اجرایی</td><td>PE32 (ویندوز) / ELF32 (لینوکس)</td><td>PE32+ (ویندوز) / ELF64 (لینوکس)</td></tr>
+      <tr><td>مصرف حافظهٔ برنامه</td><td>کمی کمتر</td><td>کمی بیشتر، چون آدرس‌ها بزرگ‌ترند</td></tr>
+      <tr><td>امنیت</td><td>امکانات حفاظتی کم‌تر</td><td>حفاظت‌های مدرن‌تر (مثل چینش تصادفی آدرس‌ها قوی‌تر)</td></tr>
+      <tr><td>کاربرد امروزی</td><td>سیستم‌های قدیمی و دستگاه‌های کوچک</td><td>تقریباً همهٔ کامپیوترها و گوشی‌های امروزی</td></tr>
+    </tbody>
+  </table>
+  </div>
+</section>
+
+<section>
+  <h2>کدام را روی کدام می‌شود اجرا کرد؟</h2>
+  <div class="card">
+    <ul>
+      <li>برنامهٔ <b>۳۲ بیتی</b> روی سیستم‌عامل <b>۶۴ بیتی</b> معمولاً اجرا می‌شود (ویندوز لایهٔ سازگاری‌ای به نام WOW64 دارد).</li>
+      <li>برنامهٔ <b>۶۴ بیتی</b> روی سیستم‌عامل <b>۳۲ بیتی</b> اجرا <b>نمی‌شود</b>.</li>
+      <li>سیستم‌عامل ۶۴ بیتی به پردازندهٔ ۶۴ بیتی نیاز دارد.</li>
+      <li>درایورها باید با معماری سیستم‌عامل یکی باشند؛ درایور ۳۲ بیتی روی ویندوز ۶۴ بیتی کار نمی‌کند.</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>چطور بفهمیم سیستم ما چند بیتی است؟</h2>
+  <div class="split">
+    <div class="card">
+      <strong>ویندوز</strong>
+      <p style="margin-top:8px">تنظیمات ← سیستم ← درباره (About). جلوی «System type» نوشته شده است، مثلاً «64-bit operating system».</p>
+    </div>
+    <div class="card">
+      <strong>لینوکس</strong>
+      <p style="margin-top:8px">در ترمینال بنویسید <code>uname -m</code>. اگر <code>x86_64</code> دیدید، ۶۴ بیتی است. برای یک فایل مشخص: <code>file نام‌فایل</code></p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="note">
+    <p><b>جمع‌بندی معلم:</b> ۶۴ بیتی یعنی آدرس‌های بزرگ‌تر، رم بیشتر و ثبات‌های پهن‌تر. امروز تقریباً همه‌چیز ۶۴ بیتی است و ۳۲ بیتی فقط برای سازگاری با برنامه‌ها و سخت‌افزار قدیمی مانده است. اگر سیستمتان ۶۴ بیتی است، نسخهٔ ۶۴ بیتی برنامه‌ها را انتخاب کنید.</p>
+  </div>
+</section>
+
+<footer>یک درس کوتاه دربارهٔ معماری ۳۲ و ۶۴ بیتی</footer>
+</div>
+
+<script>
+(function(){
+  function fill(id,n){
+    var el=document.getElementById(id), s="";
+    for(var i=0;i<n;i++){ s+='<span class="cell" style="--i:'+i+'">'+(i%2?"0":"1")+'</span>'; }
+    el.innerHTML=s;
+    el.addEventListener("click",function(e){
+      var c=e.target.closest(".cell"); if(!c) return;
+      c.textContent=c.textContent==="1"?"0":"1"; c.classList.toggle("flipped");
+    });
+  }
+  fill("g32",32); fill("g64",64);
+
+  /* hero: raining bits */
+  var hb=document.getElementById("hb"), h="";
+  for(var k=0;k<24*7;k++){ h+="<span>"+(Math.random()<.5?0:1)+"</span>"; }
+  hb.innerHTML=h;
+  var spans=hb.children;
+  setInterval(function(){
+    for(var t=0;t<6;t++){
+      var sp=spans[Math.floor(Math.random()*spans.length)];
+      sp.textContent=sp.textContent==="1"?"0":"1";
+      sp.classList.remove("on"); void sp.offsetWidth; sp.classList.add("on");
+    }
+  },160);
+
+  /* reveal on scroll */
+  var secs=document.querySelectorAll("section");
+  secs.forEach(function(x){x.classList.add("reveal")});
+  var io=new IntersectionObserver(function(es){
+    es.forEach(function(e){
+      if(e.isIntersecting){
+        e.target.classList.add("in"); io.unobserve(e.target);
+        if(e.target.querySelector("#g64")){
+          var cells=e.target.querySelectorAll(".cell");
+          setTimeout(function(){
+            cells.forEach(function(c,i){ setTimeout(function(){c.classList.add("wave")},i*18); });
+          },1500);
+        }
+      }
+    });
+  },{threshold:.15});
+  secs.forEach(function(x){io.observe(x)});
+})();
+</script>
+</body>
+</html>
